@@ -1,0 +1,43 @@
+{"properties" : [
+    {
+        "id"      : "p1",
+        "active"  : true,
+        "address" : "10, High Street, Chiswick, W4",
+        "description" : "Currently arranged as a four bedroom property, this five bedroom detached house boasts a large reception room, separate dining room, five generous bedrooms, off street parking and a private garden.",
+        "price"       : 495000,
+        "bedrooms"    : 3,
+        "images"      : [
+            "/images/properties/property1_1.jpg",
+            "/images/properties/property1_2.jpg",
+            "/images/properties/property1_3.jpg"
+        ]
+    },
+
+    {
+        "id"      : "p2",
+        "active"  : true,
+        "address" : "90 Kings Avenue, Brentford, W4",
+        "description" : "Set within seven acres of gated land, this luxurious five bedroom detached house benefits from a swimming pool, a private tennis court, a barbeque area ideal for entertaining, five en suites and a carriage driveway.",
+        "price"       : 1295000,
+        "bedrooms"    : 5,
+        "images"      : [
+            "/images/properties/property2_1.jpg",
+            "/images/properties/property2_2.jpg",
+            "/images/properties/property2_3.jpg"
+        ]
+    },
+
+    {
+        "id"      : "p3",
+        "active"  : false,
+        "address" : "Flat 3b, Queens Crescent, Ealing, W5",
+        "description" : "This magnificent four bedroom house features bright and generous accommodation over four floors, with stylish décor, private garden, porterage, underground parking, on-site gym and beautiful communal gardens.",
+        "price"       : 999950,
+        "bedrooms"    : 4,
+        "images"      : [
+            "/images/properties/property3_1.jpg",
+            "/images/properties/property3_2.jpg",
+            "/images/properties/property3_3.jpg"
+        ]
+    }
+]}

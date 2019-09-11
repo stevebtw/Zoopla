@@ -1,0 +1,18 @@
+form div{
+    padding:6px 0;
+}
+label{
+    display:inline-block;
+    width:100px;
+}
+input{
+    border:none;
+    padding:4px;
+    font-size:100%;
+    border-bottom:1px solid #000;
+}
+
+
+.property_form{
+    padding-bottom:12px;
+}
