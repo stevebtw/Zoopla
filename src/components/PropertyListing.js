@@ -61,6 +61,7 @@ class PropertyListing extends Component {
         
         const property_image = (property.images && property.images.length) ? 
                 property.images[0]  : defaultImage;
+                
         
         // classes
         const classes = ["property_listing"];

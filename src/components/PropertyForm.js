@@ -15,17 +15,31 @@ class PropertyForm extends React.Component {
     const value  = target.type === 'checkbox' ? target.checked : target.value;
     const name   = target.name;
 
+    // update State ready to list to parent onsubmit
     this.setState({
       [name]: value
     });
+    
   }
 
   handleSubmit(event) {
     event.preventDefault();
 
-    // lift state to parent
-    // FIXME would use Redux and Routing with more time
-    this.props.onFormChange(this.state);    
+    // FIXME form validation here. Switch statement to set error state
+    const errors = false;
+
+    this.setState({
+      is_submiting : true
+    });
+    
+
+    if(!errors){
+
+      // lift state to parent
+      // FIXME would use Redux and Routing with more time
+      this.props.onFormChange(this.state);
+
+    }
   }
 
   render() {
@@ -47,7 +61,13 @@ class PropertyForm extends React.Component {
 
           <div>
             <label>List on portals?</label>
-            <input type="checkbox" name="active" checked={this.state.active ? "checked" : ""} value={this.state.status} onChange={this.handleChange} />
+            <input 
+              type="checkbox"
+              name="active" 
+              checked={this.state.active ? "checked" : ""} 
+              value={this.state.status} 
+              onChange={this.handleChange} 
+            />
           </div>
 
           <div>
@@ -58,7 +78,7 @@ class PropertyForm extends React.Component {
               ))}
             </select>
           </div>
-          <input type="submit" value="Submit" />
+          <input type="submit" className="button" value={this.state.is_submiting ? "Updating" : "Update"} />
         </form>
       </div>
     );

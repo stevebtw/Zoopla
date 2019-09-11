@@ -44,11 +44,9 @@ class FetchData extends Component {
         const property_list = properties.map(property => 
             <PropertyListing key={property.id} property={property} />
         );
-// <PropertyForm onFormChange={this.handleFormChange} property={{}} />
+
         return (
           <React.Fragment>
-           
-            
             <div id="property_list" className="card">
               {property_list}
             </div>
