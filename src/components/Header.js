@@ -4,7 +4,7 @@ import 'typeface-roboto';
 const Header = (props) => {
     return (
         <header>
-          Manage listings on property portals
+          Manage property listings on portals
         </header>
     )
 }

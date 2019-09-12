@@ -2,24 +2,48 @@ form div{
     padding:6px 0;
 }
 label{
-    display:inline-block;
+    display:block;
     width:130px;
+    font-size:85%;
+    color:#666;
 }
-input{
+input[type="text"]{
     border:none;
-    padding:4px;
+    padding:4px 0;
     font-size:100%;
     border-bottom:1px solid #000;
+    box-sizing: border-box;
+    width:100%;
+    max-width: 600px;
 }
-input.button{
+input[type="checkbox"]{
+    width:16px;
+    height:16px;
+}
+.button{
     border:none;
     padding:8px 24px;
-    margin-top:12px;
-    background:blue;
+    margin:12px 12px 12px 0;
+    border:1px solid #6a148e;
+    background:#6a148e;
     color:#fff;
     border-radius:6px;
     outline:none;
     cursor:pointer;
+    transition:.3s ease;
+}
+.button:hover{
+    border:1px solid #3f0c55;
+    background:#3f0c55;
+}
+.button_secondary{
+    border:1px solid #fff;
+    color:#6a148e;
+    background:#fff;
+}
+.button_secondary:hover{
+    border:1px solid #6a148e;
+    background:#fff;
 }
 
 .property_form{

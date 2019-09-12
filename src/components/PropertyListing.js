@@ -8,8 +8,6 @@ import 'typeface-roboto';
 
 
 
-
-// stateful
 class PropertyListing extends Component {
     constructor(props) {
       super(props);
@@ -30,37 +28,36 @@ class PropertyListing extends Component {
             is_selected: !state.is_selected
         }));
     }
+
     postToAPI(){
-        axios.post("FIXME")
+        const params = this.state.property;
+
+        axios.post("FIXME", params)
         .then(response => {
-            // FIXME - will fail with test data - see catch 
+            // FIXME - will fail with test data - see catch instead
         })
         .catch( (error) => {
             // fake network delay for UX
             setTimeout(() => this.setEditable(), 500);
-        });  
-        
+        });      
     }
 
     handleFormChange(property){
-        console.debug(property)
+        // update state and POST when done
         this.setState(state => ({
             property : {...property}
-        }));
-
-        // update API
-        this.postToAPI();
+        }), () => this.postToAPI() );
     }
 
 
     render() {
-        let property = this.state.property;
+        const property = this.state.property;
 
         // FIXME for real world scenario - some properties might not have photos yet
         const defaultImage = ""; 
         
         const property_image = (property.images && property.images.length) ? 
-                property.images[0]  : defaultImage;
+                property.images[0] : defaultImage;
                 
         
         // classes
@@ -68,17 +65,23 @@ class PropertyListing extends Component {
         if(!property.active){
             classes.push("is_archived");
         }
+        if(this.state.is_selected){
+            classes.push("is_selected");
+        }
 
         return (
             <div className={classes.join(" ")}>
-                <div className="property_details" onClick={() => this.setEditable()}>
+                <div className="property_details" onClick={() => this.setEditable()} title="Edit listing">
                     <div className="property_thumbnail_holder">
                         <img src={property_image} className="property_thumbnail" alt="" />
                     </div>
 
                     <div className="property_meta">
-                        <p className="property_address">{property.address}</p>
-                        <p>{property.bedrooms} bedroom house</p>
+                        <p className="property_address">
+                            {property.address} 
+                            {property.active ? "" : " [NOT LISTED]"}
+                        </p>
+                        <p>{property.bedrooms || "1" } bedroom house</p>
                         <p>{Helpers.formatNumber(property.price)}</p>
                     </div>
                 

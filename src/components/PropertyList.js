@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import axios from 'axios';
-import PropertyListing from "../components/PropertyListing";
-
+import PropertyListing from "./PropertyListing";
+import PropertyForm from "./PropertyForm";
 
 
 class FetchData extends Component {
@@ -9,9 +9,12 @@ class FetchData extends Component {
     super(props);
 
     this.state = {
-        properties : {},
+        properties : [],
+        is_adding : false,
         error: null
     };
+
+    this.addNewProperty = this.addNewProperty.bind(this);
   }
 
   getData(){
@@ -32,6 +35,25 @@ class FetchData extends Component {
     });
   }
 
+  addNewProperty(property){
+
+    // FIXME - for brevity, add missing form fields 
+    const params = {
+      ...property,
+      id : "p4",
+      active : true,
+      images : ["/images/properties/property4_1.jpg"]
+    }
+
+    axios.post("FIXME", params)
+    .catch( (error) => {
+      // FIXME - this would be the resolved promise if the API worked
+      this.setState(prevState => ({
+        properties: [params, ...prevState.properties]
+      }));
+    });     
+  }
+
   componentDidMount() {
     this.getData();
   }
@@ -47,9 +69,14 @@ class FetchData extends Component {
 
         return (
           <React.Fragment>
+            <div id="new_property" className="card">
+               <PropertyForm onFormChange={this.addNewProperty} property={null} />
+            </div>
+            
             <div id="property_list" className="card">
               {property_list}
             </div>
+
           </React.Fragment>
         );
     }else{

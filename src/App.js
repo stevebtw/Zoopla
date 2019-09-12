@@ -1,6 +1,6 @@
 import React from 'react';
 import Header from './components/Header';
-import Properties from './utils/FetchData';
+import PropertyList from './components/PropertyList';
 import './App.css';
 import 'typeface-roboto';
 
@@ -8,7 +8,7 @@ function App() {
   return (
     <div className="App">
       <Header />
-      <Properties />
+      <PropertyList />
     </div>
   );
 }
