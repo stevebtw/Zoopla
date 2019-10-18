@@ -1,3 +1,7 @@
+#property_list a{
+    display:block;
+    text-decoration: none;
+}
 .property_listing{
     font-family:Roboto, Arial, Helvetica, sans-serif;
     padding:24px;

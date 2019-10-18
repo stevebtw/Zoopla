@@ -5,6 +5,15 @@ html,body{
   background:#f5f5f5;
   font-family:Roboto, Arial, Helvetica, sans-serif;
 }
+.page{
+  background:#fff;
+  padding:24px;
+  animation: fadein 1s;
+}
+@keyframes fadein{
+  from {opacity: 0}
+  to   {opacity: 1}
+}
 .card{
   background:#fff;
   box-shadow: 0 0 12px #00000055;
@@ -13,7 +22,22 @@ header{
   background: #6a148e;
   color:#fff;
   padding:16px 24px;
-  font-size:120%;
+  font-size:150%;
+}
+nav{
+  background: #6a148e;
+}
+nav a{
+  color:#fff;
+  display:inline-block;
+  padding:12px 0 12px 24px;
+  text-decoration: none;
+  opacity: .6;
+  transition: .5s ease;;
+}
+nav a:hover,
+nav a.selected{
+  opacity: 1;
 }
 h3{
   color:#6a148e;

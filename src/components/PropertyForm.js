@@ -1,150 +1,177 @@
 import React from 'react';
+import { withRouter } from 'react-router-dom';
+import { connect } from 'react-redux';
+
 import './PropertyForm.css';
+import { Input, TextArea } from './FormElements';
 
-
-// stateless
-const Input = ({label, name, value, changeHandler}) => {
-  return (
-    <div>
-      <label>{label}</label>
-      <input type="text" name={name} value={value} required onChange={changeHandler} />
-    </div>
-  )
-}
 
 
 class PropertyForm extends React.Component {
   constructor(props) {
     super(props);
 
-    // spread property object into state and it will get lifed to parent onsubmit
+    let property = this.props.property || {
+      address: "",
+      title: "",
+      price: ""
+    }
     this.state = {
-      ...props.property
+      ...property,
+      is_submiting: false
     };
 
-    this.handleAddProperty = this.handleAddProperty.bind(this);
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
+    this.handleCancel = this.handleCancel.bind(this);
   }
 
-  handleAddProperty(){
-    this.setState(state => ({
-      is_adding: !state.is_adding
-    }));
+  handleCancel() {
+    this.props.history.push('/');
   }
 
   handleChange(event) {
     const target = event.target;
-    const value  = target.type === 'checkbox' ? target.checked : target.value;
-    const name   = target.name;
+    const value = target.type === 'checkbox' ? target.checked : target.value;
+    const name = target.name;
 
     // update State ready to list to parent onsubmit
-    this.setState({
+    this.setState(prevState => ({
+      ...prevState,
       [name]: value
-    });
-    
+    }));
+
+  }
+
+  addNewProperty() {
+    const id = ++this.props.properties.length;
+    const new_property = {
+      ...this.state,
+      id: "p" + id,
+      active: true,
+      images: ["/images/properties/property4_1.jpg"]
+    }
+    // POSTTOAPI SUCCESS
+    this.props.onPropertyAdded(new_property);
+    this.props.history.push("/");
+  }
+
+  editProperty() {
+    // POSTTOAPI SUCCESS
+    this.props.onPropertyEdit(this.state);
+    this.props.history.push("/");
   }
 
   handleSubmit(event) {
     event.preventDefault();
 
-    // FIXME form validation here. Switch statement to set error state
     const errors = false;
 
-    this.setState({
-      is_adding    : false,
-      is_submiting : true
-    });
-    
+    if (!errors) {
 
-    if(!errors){
+      this.setState(prevState => ({
+        ...prevState,
+        is_submiting: true
+      }));
 
-      // lift state to parent
-      // FIXME would use Redux and Routing with more time
-      this.props.onFormChange(this.state);
-
-      // clear form for next time
-      this.setState({
-        address : "",
-        price   : "",
-        description : ""
-      });
+      setTimeout(() => {
+        if (this.props.property) {
+          this.editProperty();
+        } else {
+          this.addNewProperty();
+        }
+      }, 1000);
 
     }
   }
+
 
   render() {
 
-    // User feedback
     let button_label;
-    if(this.props.property){
+    if (this.props.property) {
       button_label = this.state.is_submiting ? "Updating" : "Update";
-    }else{
+    } else {
       button_label = this.state.is_submiting ? "Adding" : "Add";
     }
-    
-    // show form when editing (has property object) or adding a new
-    if(this.props.property || this.state.is_adding){
-      return (
-        <div className="property_form">
 
-          <h3>{this.props.property ? "Update this" : "Add a new"} property</h3>
 
-          <form onSubmit={this.handleSubmit}>
+    return (
+      <div className="property_form page">
 
-            <Input 
-              label="Address" 
-              name="address"
-              value={this.state.address}
-              changeHandler={this.handleChange}
+        <h3>{this.props.property ? "Update this" : "Add a new"} property</h3>
+
+
+        <form onSubmit={this.handleSubmit}>
+
+          <Input
+            label="Address"
+            name="address"
+            value={this.state.address}
+            changeHandler={this.handleChange}
+          />
+
+          <Input
+            label="Price"
+            name="price"
+            value={this.state.price}
+            changeHandler={this.handleChange}
+          />
+
+          <TextArea
+            label="Description"
+            name="description"
+            value={this.state.description}
+            changeHandler={this.handleChange}
+          />
+
+          <div>
+            <label>Bedrooms</label>
+            <select name="bedrooms" value={this.state.bedrooms} onChange={this.handleChange}>
+              <option value="1">1</option>
+              <option value="2">2</option>
+              <option value="3">3</option>
+              <option value="4">4</option>
+              <option value="5">5</option>
+            </select>
+          </div>
+
+          <div>
+            <label>List on portals?</label>
+            <input
+              type="checkbox"
+              name="active"
+              checked={this.state.active ? "checked" : ""}
+              value={this.state.status}
+              onChange={this.handleChange}
             />
-
-            <Input 
-              label="Price" 
-              name="price"
-              value={this.state.price}
-              changeHandler={this.handleChange}
-            />
-
-            <Input 
-              label="Description" 
-              name="description"
-              value={this.state.description}
-              changeHandler={this.handleChange}
-            />
-
-            <div>
-              <label>Bedrooms</label>
-              <select name="bedrooms" value={this.state.bedrooms} onChange={this.handleChange}>
-                <option value="1">1</option>
-                <option value="2">2</option>
-                <option value="3">3</option>
-                <option value="4">4</option>
-                <option value="5">5</option>
-              </select>
-            </div>
-
-            <div>
-              <label>List on portals?</label>
-              <input 
-                type="checkbox"
-                name="active" 
-                checked={this.state.active ? "checked" : ""} 
-                value={this.state.status} 
-                onChange={this.handleChange} 
-              />
-            </div>
+          </div>
 
 
-            <input type="submit" className="button" value={button_label} />
-     
-          </form>
-        </div>
-     );
-   }else{
-     return <button className="button" onClick={this.handleAddProperty}>Add new property</button>;
-   }
+          <input type="submit" className="button" value={button_label} />
+
+          <input type="button" className="button button_secondary" onClick={this.handleCancel} value="Close" />
+
+        </form>
+      </div>
+    );
+
+
   }
 }
 
-export default PropertyForm;
+const mapStateToProps = state => {
+  return {
+    properties: state.properties
+  }
+}
+
+const mapDispatchToProps = dispatch => {
+  return {
+    onPropertyAdded: (new_property) => dispatch({ type: "ADD_PROPERTY", property: new_property }),
+    onPropertyEdit: (new_property) => dispatch({ type: "UPDATE_PROPERTY", property: new_property }),
+    onCloseNewProperty: () => dispatch({ type: "ADD_PROPERTY_FORM", status: false })
+  }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(withRouter(PropertyForm));
